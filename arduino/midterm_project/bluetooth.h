@@ -12,19 +12,44 @@
 enum BT_CMD {
     NOTHING,
     // TODO: add your own command type here
+    ADVANCE,
+    U_TURN,
+    TURN_RIGHT,
+    TURN_LEFT,
+    HALT
 };
 
 BT_CMD ask_BT() {
     BT_CMD message = NOTHING;
     char cmd;
+    //Serial.print("asking...");
     if (Serial1.available()) {
 // TODO:
 // 1. get cmd from Serial1(bluetooth serial)
 // 2. link bluetooth message to your own command type
-#ifdef DEBUG
+      cmd = Serial1.read();
+      switch(cmd)
+      {
+        case 'f':
+            message = ADVANCE;
+            break;
+        case 'b':
+            message = U_TURN;
+            break;
+        case 'r':
+            message = TURN_RIGHT;
+            break;
+        case 'l':
+            message = TURN_LEFT;
+            break;
+        default:
+            message = NOTHING;
+            break;
+      }
+//#ifdef DEBUG
         Serial.print("cmd : ");
         Serial.println(cmd);
-#endif
+//#endif
     }
     return message;
 }  // ask_BT
@@ -34,6 +59,7 @@ BT_CMD ask_BT() {
 // (but need to convert to byte type)
 void send_msg(const char& msg) {
     // TODO:
+    Serial1.write(msg);
 }  // send_msg
 
 // send UID back through Serial1(bluetooth serial)

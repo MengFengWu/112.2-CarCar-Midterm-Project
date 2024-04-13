@@ -20,8 +20,8 @@ log = logging.getLogger(__name__)
 # TODO : Fill in the following information
 TEAM_NAME = "YOUR_TEAM_NAME"
 SERVER_URL = "http://140.112.175.18:5000/"
-MAZE_FILE = "data/maze.csv"
-BT_PORT = ""
+MAZE_FILE = "data/small_maze.csv"
+BT_PORT = "/dev/tty.CAR-21"
 
 # python main.py --maze-file="data/small_maze.csv" --bt-port="21" --team-name="HELLO" --server-url="http://140.112.175.18:5000/" 1
 # python main.py 1
@@ -40,9 +40,9 @@ def parse_args():
 
 def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str):
     maze = Maze(maze_file)
-    #point = Scoreboard(team_name, server_url)
+    point = Scoreboard(team_name, server_url)
     # point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
-    #interface = BTInterface(port=bt_port)
+    interface = BTInterface(port=bt_port)
     # TODO : Initialize necessary variables
 
     if mode == "0":
@@ -52,9 +52,9 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")
         # TODO: You can write your code to test specific function.
-        ans = maze.BFS_2(maze.get_node_dict()[1], maze.get_node_dict()[11])
+        ans = maze.BFS_2(maze.get_node_dict()[1], maze.get_node_dict()[6])
         cmd = maze.actions_to_str(maze.getActions(ans))
-        print(cmd)
+        interface.send_action(cmd[0])
 
     else:
         log.error("Invalid mode")
