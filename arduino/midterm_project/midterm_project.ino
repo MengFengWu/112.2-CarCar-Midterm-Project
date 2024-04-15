@@ -9,8 +9,7 @@
 #define DEBUG  // debug flag
 
 // for RFID
-#include <MFRC522.h>
-#include <SPI.h>
+#include "RFID.h"
 
 /*===========================define pin & create module object================================*/
 // BlueTooth
@@ -34,9 +33,9 @@
 #define IRpin_R 38
 #define IRpin_RR 40
 // RFID, 請按照自己車上的接線寫入腳位
-#define RST_PIN 0                 // 讀卡機的重置腳位
-#define SS_PIN 0                  // 晶片選擇腳位
-MFRC522 mfrc522(SS_PIN, RST_PIN);  // 建立MFRC522物件
+#define RST_PIN 9                 // 讀卡機的重置腳位
+#define SS_PIN 53                  // 晶片選擇腳位
+RFID* Rfid;  // 建立RFID物件
 /*===========================define pin & create module object===========================*/
 
 /*============setup============*/
@@ -47,7 +46,7 @@ void setup() {
     Serial.begin(9600);
     // RFID initial
     SPI.begin();
-    mfrc522.PCD_Init();
+    Rfid = new RFID(SS_PIN, RST_PIN);
     // TB6612 pin
     pinMode(MotorR_I1, OUTPUT);
     pinMode(MotorR_I2, OUTPUT);
