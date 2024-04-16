@@ -46,10 +46,10 @@ BT_CMD ask_BT() {
             message = NOTHING;
             break;
       }
-//#ifdef DEBUG
+#ifdef DEBUG
         Serial.print("cmd : ");
         Serial.println(cmd);
-//#endif
+#endif
     }
     return message;
 }  // ask_BT

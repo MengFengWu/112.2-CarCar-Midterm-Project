@@ -102,8 +102,6 @@ void SetState() {
     // 1. Get command from bluetooth
     // 2. Change state if need
     if(Serial1.available() == 1) state = true;
-    //else state = false;
-    
 }
 
 void Search() {
