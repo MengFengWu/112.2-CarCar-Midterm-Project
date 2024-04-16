@@ -76,9 +76,10 @@ void setup() {
 
 /*===========================initialize variables===========================*/
 int l2 = 0, l1 = 0, m0 = 0, r1 = 0, r2 = 0;  // 紅外線模組的讀值(0->white,1->black)
-int vLd = 240;
+int vLd = 220;
 int vRd = 220;                                // set your own value for motor power
-bool state = true;     // set state to false to halt the car, set state to true to activate the car
+int spinSpeed = 50;
+bool state = false;     // set state to false to halt the car, set state to true to activate the car
 BT_CMD _cmd = NOTHING;  // enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================initialize variables===========================*/
 
@@ -100,7 +101,9 @@ void SetState() {
     // TODO:
     // 1. Get command from bluetooth
     // 2. Change state if need
-
+    if(Serial1.available() == 1) state = true;
+    //else state = false;
+    
 }
 
 void Search() {
@@ -126,5 +129,7 @@ void Search() {
             break;
     }
     walk();
+    stop();
+    delay(2000);
 }
 /*===========================define function===========================*/

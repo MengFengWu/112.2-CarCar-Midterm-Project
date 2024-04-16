@@ -36,6 +36,9 @@ class BTInterface:
     def end_process(self):
         self.bt.serial_write_string("e")
         self.bt.disconnect()
+    
+    def receive_message(self):
+        return self.bt.serial_read_string()
 
 
 if __name__ == "__main__":

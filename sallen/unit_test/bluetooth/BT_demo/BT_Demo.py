@@ -63,7 +63,7 @@ def write():
 
 if __name__ == "__main__":
     # TODO: Please modify the port name.
-    bt = bluetooth("COM19")
+    bt = bluetooth("COM5")
     while not bt.is_open():
         pass
     print("BT Connected!")

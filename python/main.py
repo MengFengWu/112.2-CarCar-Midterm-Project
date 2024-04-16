@@ -21,9 +21,9 @@ log = logging.getLogger(__name__)
 TEAM_NAME = "YOUR_TEAM_NAME"
 SERVER_URL = "http://140.112.175.18:5000/"
 MAZE_FILE = "data/small_maze.csv"
-BT_PORT = "/dev/tty.CAR-21"
+BT_PORT = "COM5"
 
-# python main.py --maze-file="data/small_maze.csv" --bt-port="21" --team-name="HELLO" --server-url="http://140.112.175.18:5000/" 1
+# python main.py --maze-file="data/small_maze.csv" --bt-port="21"`` --team-name="HELLO" --server-url="http://140.112.175.18:5000/" 1
 # python main.py 1
 
 def parse_args():
@@ -54,7 +54,11 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         # TODO: You can write your code to test specific function.
         ans = maze.BFS_2(maze.get_node_dict()[1], maze.get_node_dict()[6])
         cmd = maze.actions_to_str(maze.getActions(ans))
-        interface.send_action(cmd[0])
+        for i in range(0, len(cmd)):
+            interface.send_action(cmd[i])
+        while True:
+            s = interface.receive_message()
+            print(s)
 
     else:
         log.error("Invalid mode")

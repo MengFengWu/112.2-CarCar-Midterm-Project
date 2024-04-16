@@ -9,8 +9,10 @@
 /*===========================import variable===========================*/
 int extern vLd;
 int extern vRd;
+int extern spinSpeed;
 void extern MotorWriting(double vL, double vR);
 void extern tracking(int l2, int l1, int m0, int r1, int r2);
+void extern send_msg(const char& msg);
 /*===========================import variable===========================*/
 
 // TODO: add some function to control your car when encounter a node
@@ -28,22 +30,25 @@ int detect()
 void walk()
 {
   int nowDetect = detect();
+  send_msg('W');
   while(nowDetect <= 2) 
   {
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40));
     nowDetect = detect();
   }
+  send_msg('N');
   while(nowDetect > 2)
   {
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40));
     nowDetect = detect();
   }
+  send_msg('L');
 }
 
 void rightSpin()
 {
   MotorWriting(vLd, -vRd);
-  delay(14000/40); 
+  delay(14000/spinSpeed); 
   MotorWriting(0, 0);
   delay(200);
 }
@@ -51,7 +56,7 @@ void rightSpin()
 void leftSpin()
 {
   MotorWriting(-vLd, vRd);
-  delay(14000/40); 
+  delay(14000/spinSpeed); 
   MotorWriting(0, 0);
   delay(200);
 }
@@ -59,7 +64,7 @@ void leftSpin()
 void halfSpin()
 {
   MotorWriting(vLd, -vRd);
-  delay(14000/20); 
+  delay(14000/(spinSpeed/2)); 
   MotorWriting(0, 0);
   delay(200);
 }
