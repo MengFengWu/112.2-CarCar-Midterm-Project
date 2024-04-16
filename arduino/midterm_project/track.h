@@ -75,11 +75,11 @@ void tracking(int l2, int l1, int m0, int r1, int r2) {
     if(l2 + l1 + m0 + r1 + r2 != 0) error /= l2 + l1 + m0 + r1 + r2;
     if(error < 0)
     {
-      adj_L = 1 / (-1) * error;
+      adj_R = 1 / (-1) * error;
     }
     else if(error > 0)
     {
-      adj_R = 1 / error;
+      adj_L = 1 / error;
     }
 
     // end TODO
