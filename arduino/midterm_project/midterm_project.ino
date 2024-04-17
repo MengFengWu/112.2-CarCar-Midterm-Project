@@ -26,6 +26,12 @@
 #define MotorL_I3 5     // 定義 B1 接腳（左）
 #define MotorL_I4 6     // 定義 B2 接腳（左）
 #define MotorL_PWML 12  // 定義 ENB (PWM調速) 接腳
+#define Motor_Stby 10
+int LeftMotorMax = 240; //
+int RightMotorMax = 220;    
+//TODO
+//dual_motor* Motor;
+
 // 循線模組, 請按照自己車上的接線寫入腳位
 #define IRpin_LL 32
 #define IRpin_L 34
@@ -40,10 +46,10 @@ RFID* Rfid;  // 建立RFID物件
 
 /*============setup============*/
 void setup() {
-    // bluetooth initialization
-    Serial1.begin(9600);
     // Serial window
     Serial.begin(9600);
+    // bluetooth initialization
+    Serial1.begin(9600);
     // RFID initial
     SPI.begin();
     Rfid = new RFID(SS_PIN, RST_PIN);
@@ -54,6 +60,9 @@ void setup() {
     pinMode(MotorL_I4, OUTPUT);
     pinMode(MotorL_PWML, OUTPUT);
     pinMode(MotorR_PWMR, OUTPUT);
+    //TODO: 
+    //Motor = new dual_motor(MotorL_I3, MotorL_I4, MotorL_PWML, MotorR_I1, MotorR_I2, MotorR_PWMR, Motor_Stby, LeftMotorMax, RightMotorMax);
+
     // tracking pin
     pinMode(IRpin_LL, INPUT);
     pinMode(IRpin_L, INPUT);
@@ -74,9 +83,7 @@ void setup() {
 /*=====Import header files=====*/
 
 /*===========================initialize variables===========================*/
-int l2 = 0, l1 = 0, m0 = 0, r1 = 0, r2 = 0;  // 紅外線模組的讀值(0->white,1->black)
-int vLd = 240;
-int vRd = 220;                                // set your own value for motor power
+int l2 = 0, l1 = 0, m0 = 0, r1 = 0, r2 = 0;  // 紅外線模組的讀值(0->white,1->black)                            // set your own value for motor power
 bool state = true;     // set state to false to halt the car, set state to true to activate the car
 BT_CMD _cmd = NOTHING;  // enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================initialize variables===========================*/
