@@ -127,7 +127,7 @@ void Search() {
             break;
     }
     walk();
-    stop();
-    delay(2000);
+    //stop();
+    //delay(2000);
 }
 /*===========================define function===========================*/
