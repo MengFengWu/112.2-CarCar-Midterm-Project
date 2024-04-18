@@ -29,20 +29,27 @@ int detect()
 void walk(dual_motor* Motor, char Text = 'D')
 {
   int nowDetect = detect();
+  Serial.print(Text);
+  Serial.print(':');
+  Serial.println('W');
   while(nowDetect <= 2) 
   {
+    Serial.print("line ");
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40), Motor);
     nowDetect = detect();
-    Serial.print("line ");
   }
+  //Serial.print('N');
   Serial.println();
   while(nowDetect > 2)
   {
+    Serial.print("node ");
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40), Motor);
     nowDetect = detect();
-    Serial.print("node ");
   }
+  //Motor->stop();
   Serial.println();
+  Serial.println('L');
+  //delay(1000);
 }
 
 void rightSpin(dual_motor* Motor)
@@ -57,8 +64,6 @@ void rightSpin(dual_motor* Motor)
 
 void leftSpin(dual_motor* Motor)
 {
-  Motor->stop();
-  delay(50);
   Motor->spin(LEFT, 255);
   delay(14000/spinSpeed); 
   Motor->stop();
@@ -67,8 +72,6 @@ void leftSpin(dual_motor* Motor)
 
 void halfSpin(dual_motor* Motor)
 {
-  Motor->stop();
-  delay(50);
   Motor->spin(RIGHT, 255);
   delay(14000/(spinSpeed/2)); 
   Motor->stop();

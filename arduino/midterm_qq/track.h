@@ -22,37 +22,6 @@
 #define MotorL_I4 6     // 定義 B2 接腳（左）
 #define MotorL_PWML 12  // 定義 ENB (PWM調速) 接腳
 
-// Write the voltage to motor.
-/*
-void MotorWriting(double vL, double vR) {
-    // TODO: use TB6612 to control motor voltage & direction
-    if(vL >= 0)
-    {
-      digitalWrite(MotorL_I3, LOW);
-      digitalWrite(MotorL_I4, HIGH);
-      analogWrite(MotorL_PWML, vL);
-    }
-    if(vL < 0)
-    {
-      digitalWrite(MotorL_I3, HIGH);
-      digitalWrite(MotorL_I4, LOW);
-      analogWrite(MotorL_PWML, -vL);
-    }
-    if(vR >= 0)
-    {
-      digitalWrite(MotorR_I1, LOW);
-      digitalWrite(MotorR_I2, HIGH);
-      analogWrite(MotorR_PWMR, vR);
-    }
-    if(vR < 0)
-    {
-      digitalWrite(MotorR_I1, HIGH);
-      digitalWrite(MotorR_I2, LOW);
-      analogWrite(MotorR_PWMR, -vR);
-    }
-}  // MotorWriting
-*/
-
 // Handle negative motor_PWMR value.
 void MotorInverter(int motor, bool& dir) {
     // Hint: the value of motor_PWMR must between 0~255, cannot write negative value.
