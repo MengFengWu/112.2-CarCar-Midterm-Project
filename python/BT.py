@@ -21,8 +21,15 @@ class Bluetooth:
     def do_connect(self, port: str):
         self.serial.close()
         log.info(f"Connecting to {port}...")
+        print("BT.py do_connect, port: " + port)
+
+        if not Serial(port, 9600, timeout=2000):
+            print("first connect fail")
+
         try:
-            self.serial = Serial(port, 9600, timeout=2)
+            print("try connect to serial\n")
+            self.serial = Serial(port, 9600, timeout=2000)
+            print("serial connect success\n")
             log.info("Success\n")
         except SerialException:
             log.warning("Fail to connect\n")

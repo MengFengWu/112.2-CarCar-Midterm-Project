@@ -40,9 +40,16 @@ def parse_args():
 
 
 def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str):
+<<<<<<< HEAD
+    #comment!!!
+    #maze = Maze(maze_file)
+    point = Scoreboard(team_name, server_url)
+    # point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
+=======
     maze = Maze(maze_file)
     #point = Scoreboard(team_name, server_url)
     point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
+>>>>>>> 6f6f2fb7a5fd5ce6b3903540d191270afe12a3d1
     interface = BTInterface(port=bt_port)
     # TODO : Initialize necessary variables
 
@@ -70,13 +77,13 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                 interface.send_action('b')
                 for i in range(1, len(cmd)):
                     interface.send_action(cmd[i])
-        """
+        
         for i in range(1, 12):
             start = goal
             goal = maze.BFS(start)
             path = maze.BFS_2(start, goal)
             cmd = maze.actions_to_str(maze.getActions(path))
-        """
+        
 
     else:
         log.error("Invalid mode")
