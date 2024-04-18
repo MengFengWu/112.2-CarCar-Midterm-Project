@@ -33,16 +33,16 @@ void walk(dual_motor* Motor, char Text = 'D')
   {
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40), Motor);
     nowDetect = detect();
-    Serial.print("line ");
+    //Serial.print("line ");
   }
-  Serial.println();
+  //Serial.println();
   while(nowDetect > 2)
   {
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40), Motor);
     nowDetect = detect();
-    Serial.print("node ");
+    //Serial.print("node ");
   }
-  Serial.println();
+  //Serial.println();
 }
 
 void rightSpin(dual_motor* Motor)

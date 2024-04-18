@@ -20,7 +20,7 @@ log = logging.getLogger(__name__)
 # TODO : Fill in the following information
 TEAM_NAME = "YOUR_TEAM_NAME"
 SERVER_URL = "http://140.112.175.18:5000/"
-MAZE_FILE = "data/medium_maze.csv"
+MAZE_FILE = "data/big_maze.csv"
 BT_PORT = "COM3"
 
 # python main.py --maze-file="data/small_maze.csv" --bt-port="21"`` --team-name="HELLO" --server-url="http://140.112.175.18:5000/" 1
@@ -41,8 +41,8 @@ def parse_args():
 
 def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str):
     maze = Maze(maze_file)
-    point = Scoreboard(team_name, server_url)
-    # point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
+    #point = Scoreboard(team_name, server_url)
+    point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
     interface = BTInterface(port=bt_port)
     # TODO : Initialize necessary variables
 
@@ -53,13 +53,30 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")
         # TODO: You can write your code to test specific function.
-        ans = maze.BFS_2(maze.get_node_dict()[1], maze.get_node_dict()[11])
-        cmd = maze.actions_to_str(maze.getActions(ans))
+        start = maze.get_node_dict()[1]
+        goal = maze.BFS(start)
+        path = maze.BFS_2(start, goal)
+        cmd = maze.actions_to_str(maze.getActions(path))
         for i in range(0, len(cmd)):
             interface.send_action(cmd[i])
-        #while True:
-        #    s = interface.receive_message()
-        #    print(s)
+        while True:
+            s = interface.receive_message()
+            if len(s) >= 8:
+                point.add_UID(s)
+                start = goal
+                goal = maze.BFS(start)
+                path = maze.BFS_2(start, goal)
+                cmd = maze.actions_to_str(maze.getActions(path))
+                interface.send_action('b')
+                for i in range(1, len(cmd)):
+                    interface.send_action(cmd[i])
+        """
+        for i in range(1, 12):
+            start = goal
+            goal = maze.BFS(start)
+            path = maze.BFS_2(start, goal)
+            cmd = maze.actions_to_str(maze.getActions(path))
+        """
 
     else:
         log.error("Invalid mode")

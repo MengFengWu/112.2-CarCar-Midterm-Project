@@ -20,7 +20,7 @@ bool RFID::detectCard()
 
 bool RFID::haveData() const
 {
-    return (Mfrc->uid.size>0);
+    return (Mfrc->uid.size>0 && Mfrc->uid.size<17);
 }
 
 String RFID::getUid() const
