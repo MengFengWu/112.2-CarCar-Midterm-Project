@@ -19,39 +19,23 @@ enum BT_CMD {
     HALT
 };
 
-BT_CMD ask_BT() {
-    BT_CMD message = NOTHING;
-    char cmd;
+String ask_BT() {
+    //BT_CMD message = NOTHING;
+    String cmd;
     //Serial.print("asking...");
     if (Serial1.available()) {
 // TODO:
 // 1. get cmd from Serial1(bluetooth serial)
 // 2. link bluetooth message to your own command type
-      cmd = Serial1.read();
-      switch(cmd)
-      {
-        case 'f':
-            message = ADVANCE;
-            break;
-        case 'b':
-            message = U_TURN;
-            break;
-        case 'r':
-            message = TURN_RIGHT;
-            break;
-        case 'l':
-            message = TURN_LEFT;
-            break;
-        default:
-            message = NOTHING;
-            break;
-      }
+      cmd = Serial1.readString();
+      /*
 #ifdef DEBUG
         Serial.print("cmd : ");
         Serial.println(cmd);
 #endif
+*/
     }
-    return message;
+    return cmd;
 }  // ask_BT
 
 // send msg back through Serial1(bluetooth serial)

@@ -56,7 +56,7 @@ RFID* Rfid;  // 建立RFID物件
 /*============setup============*/
 void setup() {
     // Serial window
-    Serial.begin(9600);
+    Serial.begin(115200);
     delay(3000);
     // bluetooth initialization
     Serial1.begin(9600);
@@ -101,8 +101,8 @@ void setup() {
 
 /*===========================initialize variables===========================*/
 int l2 = 0, l1 = 0, m0 = 0, r1 = 0, r2 = 0;  // 紅外線模組的讀值(0->white,1->black)                            // set your own value for motor power
-int state = 2;     // 0: idle 1: moving 2: reading rfid
-BT_CMD _cmd = NOTHING;  // enum for bluetooth message, reference in bluetooth.h line 2
+int state = 0;     // 0: idle 1: moving 2: reading rfid
+String _cmd;  // enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================initialize variables===========================*/
 
 /*===========================declare function prototypes===========================*/
@@ -118,11 +118,11 @@ void loop() {
     {
         //Serial.println("gimme card");
         Motor->write(0, 0);
-        Rfid->detectCard();
         delay(500);
-        if(Rfid->haveData())
+        if(Rfid->detectCard() && Rfid->haveData())
         {
-            Serial.println(Rfid->getUid());
+            Serial1.println(Rfid->getUid());
+            state = 0;
             //send_msg(RFID->getUID());
         }
     }
@@ -130,11 +130,7 @@ void loop() {
 }
 
 void SetState() {
-    // TODO:
-    // 1. Get command from bluetooth
-    // 2. Change state if need
-    if(Serial1.available() == 1) state = 1;
-    else if(state == 1) state = 2;
+    if(Serial1.available() == 1 && state == 0) state = 1;
 }
 
 void Search() {
@@ -142,23 +138,28 @@ void Search() {
     // code)
     //Serial.println("asking......");
     _cmd = ask_BT();
-    switch(_cmd)
+    for(int i = 0; i < _cmd.length(); i++)
+    switch(_cmd[i])
     {
-        case ADVANCE:
+        case 'f':
+            walk(Motor);
             break;
-        case U_TURN:
+        case 'b':
             halfSpin(Motor);
+            walk(Motor);
             break;
-        case TURN_LEFT:
+        case 'l':
             leftSpin(Motor);
+            walk(Motor);
             break;
-        case TURN_RIGHT:
+        case 'r':
             rightSpin(Motor);
+            walk(Motor);
             break;
         default:
             Motor->stop();
             break;
     }
-    walk(Motor);
+    state = 2;
 }
 /*===========================define function===========================*/

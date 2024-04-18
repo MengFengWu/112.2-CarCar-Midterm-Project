@@ -33,16 +33,17 @@ void walk(dual_motor* Motor, char Text = 'D')
   {
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40), Motor);
     nowDetect = detect();
-    //Serial.print("line ");
+    Serial.print("line ");
   }
-  //Serial.println();
+  Serial.println();
+  delay(100);
   while(nowDetect > 2)
   {
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40), Motor);
     nowDetect = detect();
-    //Serial.print("node ");
+    Serial.print("node ");
   }
-  //Serial.println();
+  Serial.println();
 }
 
 void rightSpin(dual_motor* Motor)
@@ -70,7 +71,7 @@ void halfSpin(dual_motor* Motor)
   Motor->stop();
   delay(50);
   Motor->spin(RIGHT, 255);
-  delay(14000/(spinSpeed/2)); 
+  delay(16000/(spinSpeed/2)); 
   Motor->stop();
   delay(200);
 }
