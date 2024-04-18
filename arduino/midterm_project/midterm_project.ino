@@ -83,6 +83,7 @@ void setup() {
 #ifdef DEBUG
     Serial.println("Start!");
 #endif
+    /*
     walk(Motor, '1');
     //tone(Buzzer_PIN, 1310, 100);
     rightSpin(Motor);
@@ -94,12 +95,13 @@ void setup() {
     walk(Motor, '4');
     //tone(Buzzer_PIN, 655, 100);
     Motor->stop();
+    */
 }
 /*============setup============*/
 
 /*===========================initialize variables===========================*/
 int l2 = 0, l1 = 0, m0 = 0, r1 = 0, r2 = 0;  // 紅外線模組的讀值(0->white,1->black)                            // set your own value for motor power
-bool state = false;     // set state to false to halt the car, set state to true to activate the car
+int state = 2;     // 0: idle 1: moving 2: reading rfid
 BT_CMD _cmd = NOTHING;  // enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================initialize variables===========================*/
 
@@ -110,13 +112,21 @@ void SetState();  // switch the state
 
 /*===========================define function===========================*/
 void loop() {
-  /*
-    if (!state)
+    if(state == 0) Motor->write(0, 0);
+    else if(state == 1) Search();
+    else if(state == 2)
+    {
+        //Serial.println("gimme card");
         Motor->write(0, 0);
-    else
-        Search();
+        Rfid->detectCard();
+        delay(500);
+        if(Rfid->haveData())
+        {
+            Serial.println(Rfid->getUid());
+            //send_msg(RFID->getUID());
+        }
+    }
     SetState();
-    */
 }
 
 void SetState() {
@@ -124,6 +134,7 @@ void SetState() {
     // 1. Get command from bluetooth
     // 2. Change state if need
     if(Serial1.available() == 1) state = 1;
+    else if(state == 1) state = 2;
 }
 
 void Search() {

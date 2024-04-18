@@ -28,6 +28,7 @@ class Maze:
         # Finally, add to nd_dict by {key(index): value(corresponding node)}
         self.raw_data = pandas.read_csv(filepath).values
         self.nodes = [] # range from 0 to N-1
+        self.traveled = [] # root nodes that are already traveled
         self.node_dict = dict()  # key: index, value: the correspond node
         for i in range(len(self.raw_data)):
             self.nodes.append(Node(int(self.raw_data[i][0])))
@@ -46,10 +47,35 @@ class Maze:
     def get_node_dict(self):
         return self.node_dict
 
+    def in_list(self, node: Node):
+        for i in self.traveled:
+            if node == i: return True
+        return False
+
     def BFS(self, node: Node):
         # TODO : design your data structure here for your algorithm
         # Tips : return a sequence of nodes from the node to the nearest unexplored deadend
-        return None
+        self.traveled.append(node)
+        Q = [node]
+        D = [0 for i in range(0, len(self.nodes))]
+        P = [0 for i in range(0, len(self.nodes))]
+        for succ in Q[0].get_successors():
+            if(D[int(succ[0].get_index()) - 1] == 0):
+                Q.append(succ[0])
+                D[int(succ[0].get_index()) - 1] = D[int(Q[0].get_index()) - 1] + 1
+                P[int(succ[0].get_index()) - 1] = Q[0]
+            Q.remove(Q[0])
+        while len(Q) != 0:
+            if(len(Q[0].get_successors()) == 1):
+                break
+            else:
+                for succ in Q[0].get_successors():
+                    if D[int(succ[0].get_index()) - 1] == 0 and not self.in_list(succ[0]):
+                        Q.append(succ[0])
+                        D[int(succ[0].get_index()) - 1] = D[int(Q[0].get_index()) - 1] + 1
+                        P[int(succ[0].get_index()) - 1] = Q[0]
+                Q.remove(Q[0])
+        return Q[0]
 
     def BFS_2(self, node_from: Node, node_to: Node):
         # TODO : similar to BFS but with fixed start point and end point
@@ -63,8 +89,7 @@ class Maze:
                     Q.append(succ[0])
                     D[int(succ[0].get_index()) - 1] = D[int(Q[0].get_index()) - 1] + 1
                     P[int(succ[0].get_index()) - 1] = Q[0]
-            Q.remove(Q[0])
-        
+            Q.remove(Q[0]) 
         sequ = [node_to]
         while sequ[0] != node_from:
             sequ.insert(0, P[int(sequ[0].get_index()) - 1])
@@ -117,8 +142,10 @@ class Maze:
         log.info(cmds)
         return cmds
 
+    """
     def strategy(self, node: Node):
         return self.BFS(node)
 
     def strategy_2(self, node_from: Node, node_to: Node):
         return self.BFS_2(node_from, node_to)
+    """
