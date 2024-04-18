@@ -16,15 +16,32 @@ void loop()
 {
     if(Serial1.available())
     {
+        char dir = Serial1.read();
         String str = Serial1.readString();
+        Serial.println(dir);
+        Serial.println(str);
+
         int tinsec = str.toInt();
         if(0 < tinsec < 30)
         {
-          Serial.print("run: ");
-          Serial.println(tinsec);
-          Motor->write(150, 150);
-          delay(tinsec *1000);
-          Motor->stop();
+            if(dir == 'f')
+            {
+                Motor->write(200, 200);
+            }
+            if(dir == 'b')
+            {
+                Motor->write(-200, -200);
+            }
+            if(dir == 'r')
+            {
+                Motor->spin(RIGHT, 100);
+            }
+            if(dir == 'l')
+            {
+                Motor->spin(LEFT, 100);
+            }
+            delay(tinsec);
+            Motor->stop();
         }
     }
 }
