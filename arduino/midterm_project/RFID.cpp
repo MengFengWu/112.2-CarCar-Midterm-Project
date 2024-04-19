@@ -30,8 +30,7 @@ String RFID::getUid() const
 
     for(int i=0; i<len; i++)
     {
-        if(Mfrc->uid.uidByte[i] < 0x10) uidstr += String("0");
-        uidstr += String(Mfrc->uid.uidByte[i], HEX);
+        uidstr += hexToStr(Mfrc->uid.uidByte[i]);
     }
     uidstr.toUpperCase();
     return uidstr;
@@ -45,4 +44,14 @@ int RFID::getUidLen() const
 int RFID::getSak() const
 {
     return Mfrc->uid.sak;
+}
+
+String RFID::hexToStr(byte num) const
+{
+    String str = String(num, HEX);
+    for(int i=str.length(); i<2; i++)
+    {
+      str = "0" + str;
+    }
+    return str;
 }

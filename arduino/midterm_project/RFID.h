@@ -15,4 +15,5 @@ class RFID
         uint8_t RST_pin;
         uint8_t SDA_pin;
         MFRC522* Mfrc;
+        String hexToStr(byte num) const;
 };
