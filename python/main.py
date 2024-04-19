@@ -40,16 +40,10 @@ def parse_args():
 
 
 def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str):
-<<<<<<< HEAD
     #comment!!!
-    #maze = Maze(maze_file)
+    maze = Maze(maze_file)
     point = Scoreboard(team_name, server_url)
     # point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
-=======
-    maze = Maze(maze_file)
-    #point = Scoreboard(team_name, server_url)
-    point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
->>>>>>> 6f6f2fb7a5fd5ce6b3903540d191270afe12a3d1
     interface = BTInterface(port=bt_port)
     # TODO : Initialize necessary variables
 
