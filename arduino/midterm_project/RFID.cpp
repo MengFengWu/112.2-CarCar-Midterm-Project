@@ -29,8 +29,11 @@ String RFID::getUid() const
     int len = Mfrc->uid.size;
 
     for(int i=0; i<len; i++)
+    {
+        if(Mfrc->uid.uidByte[i] < 0x10) uidstr += String("0");
         uidstr += String(Mfrc->uid.uidByte[i], HEX);
-    
+    }
+    uidstr.toUpperCase(); 
     return uidstr;
 }
 

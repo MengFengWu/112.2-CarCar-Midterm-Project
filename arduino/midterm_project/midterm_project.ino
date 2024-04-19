@@ -101,7 +101,7 @@ void setup() {
 
 /*===========================initialize variables===========================*/
 int l2 = 0, l1 = 0, m0 = 0, r1 = 0, r2 = 0;  // 紅外線模組的讀值(0->white,1->black)                            // set your own value for motor power
-int state = 0;     // 0: idle 1: moving 2: reading rfid
+int state = 2;     // 0: idle 1: moving 2: reading rfid
 String _cmd;  // enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================initialize variables===========================*/
 
@@ -126,6 +126,7 @@ void loop() {
             //send_msg(RFID->getUID());
         }
     }
+    Serial.println(state);
     SetState();
 }
 
