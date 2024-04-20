@@ -75,7 +75,8 @@ class Maze:
                         D[int(succ[0].get_index()) - 1] = D[int(Q[0].get_index()) - 1] + 1
                         P[int(succ[0].get_index()) - 1] = Q[0]
                 Q.remove(Q[0])
-        return Q[0]
+        if len(Q) != 0: return Q[0]
+        else: return node
 
     def BFS_2(self, node_from: Node, node_to: Node):
         # TODO : similar to BFS but with fixed start point and end point

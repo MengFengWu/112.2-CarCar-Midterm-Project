@@ -23,7 +23,7 @@ class Bluetooth:
         log.info(f"Connecting to {port}...")
         print("BT.py do_connect, port: " + port)
 
-        if not Serial(port, 9600, timeout=2000):
+        if not Serial(port, 9600, timeout=2):
             print("first connect fail")
 
         try:

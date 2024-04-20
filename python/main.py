@@ -18,10 +18,10 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 # TODO : Fill in the following information
-TEAM_NAME = "YOUR_TEAM_NAME"
+TEAM_NAME = "台大電機段奕鳴"
 SERVER_URL = "http://140.112.175.18:5000/"
-MAZE_FILE = "data/big_maze.csv"
-BT_PORT = "COM3"
+MAZE_FILE = "data/small_maze.csv"
+BT_PORT = "COM5"
 
 # python main.py --maze-file="data/small_maze.csv" --bt-port="21"`` --team-name="HELLO" --server-url="http://140.112.175.18:5000/" 1
 # python main.py 1
@@ -43,7 +43,7 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
     #comment!!!
     maze = Maze(maze_file)
     point = Scoreboard(team_name, server_url)
-    # point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
+    #point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
     interface = BTInterface(port=bt_port)
     # TODO : Initialize necessary variables
 
@@ -63,20 +63,25 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         while True:
             s = interface.receive_message()
             if len(s) >= 8:
-                point.add_UID(s)
+                point.add_UID(s[0:8])
+                point.get_current_score()
+                print(s[0:8])
                 start = goal
                 goal = maze.BFS(start)
-                path = maze.BFS_2(start, goal)
-                cmd = maze.actions_to_str(maze.getActions(path))
-                interface.send_action('b')
-                for i in range(1, len(cmd)):
-                    interface.send_action(cmd[i])
+                if start != goal:
+                    path = maze.BFS_2(start, goal)
+                    cmd = maze.actions_to_str(maze.getActions(path))
+                    interface.send_action('b')
+                    for i in range(1, len(cmd)):
+                        interface.send_action(cmd[i])
         
+        """
         for i in range(1, 12):
             start = goal
             goal = maze.BFS(start)
             path = maze.BFS_2(start, goal)
             cmd = maze.actions_to_str(maze.getActions(path))
+        """
         
 
     else:
