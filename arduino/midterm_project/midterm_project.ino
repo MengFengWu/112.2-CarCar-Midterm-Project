@@ -34,8 +34,10 @@
 #define MotorL_I4 5     // 定義 B2 接腳（左）
 #define MotorL_PWML 12  // 定義 ENB (PWM調速) 接腳
 #define Motor_Stby 10
-int LeftMotorMax = 200; //
-int RightMotorMax = 200;    
+//int LeftMotorMax = 208; //
+//int RightMotorMax = 240;    
+int LeftMotorMax = 250; //
+int RightMotorMax = 223;  
 dual_motor* Motor;
 RFID* Rfid;  // 建立RFID物件
 
@@ -83,15 +85,17 @@ void setup() {
 #ifdef DEBUG
     Serial.println("Start!");
 #endif
-    /*
+/*
     walk(Motor, '1');
     //tone(Buzzer_PIN, 1310, 100);
-    rightSpin(Motor);
+    delay(50);
+    leftSpin(Motor);
     walk(Motor, '2');
     //tone(Buzzer_PIN, 655, 100);
+    delay(50);
+    leftSpin(Motor);
     walk(Motor, '3');
     //tone(Buzzer_PIN, 655, 100);
-    rightSpin(Motor);
     walk(Motor, '4');
     //tone(Buzzer_PIN, 655, 100);
     Motor->stop();
@@ -101,7 +105,7 @@ void setup() {
 
 /*===========================initialize variables===========================*/
 int l2 = 0, l1 = 0, m0 = 0, r1 = 0, r2 = 0;  // 紅外線模組的讀值(0->white,1->black)                            // set your own value for motor power
-int state = 0;     // 0: idle 1: moving 2: reading rfid
+int state = 2;     // 0: idle 1: moving 2: reading rfid
 String _cmd;  // enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================initialize variables===========================*/
 
@@ -127,7 +131,7 @@ void loop() {
             //send_msg(RFID->getUID());
         }
     }
-    //Serial.println(state);
+    Serial.println(state);
     SetState();
 }
 
@@ -140,27 +144,57 @@ void Search() {
     // code)
     //Serial.println("asking......");
     _cmd = ask_BT();
-    for(int i = 0; i < _cmd.length(); i++)
-    switch(_cmd[i])
+    Serial.println(_cmd);
+    int i = 0;
+    int nowtime = millis();
+    while(i < _cmd.length())
     {
-        case 'f':
-            walk(Motor);
-            break;
-        case 'b':
-            halfSpin(Motor);
-            walk(Motor);
-            break;
-        case 'l':
-            leftSpin(Motor);
-            walk(Motor);
-            break;
-        case 'r':
-            rightSpin(Motor);
-            walk(Motor);
-            break;
-        default:
-            Motor->stop();
-            break;
+        switch(_cmd[i])
+        {
+            case 'f':
+                if(i != 0 && millis() - nowtime < 1000) continue;
+                nowtime = millis();
+                Serial1.print("f ");
+                Serial1.println(nowtime);
+                walk(Motor);
+                i++;
+                break;
+            case 'b':
+                if(i != 0 && millis() - nowtime < 1000) continue;
+                nowtime = millis();
+                Serial1.print("b ");
+                Serial1.println(nowtime);
+                delay(50);
+                halfSpin(Motor);
+                delay(50);
+                walk(Motor);
+                i++;
+                break;
+            case 'l':
+                if(i != 0 && millis() - nowtime < 1000) continue;
+                nowtime = millis();
+                Serial1.print("l ");
+                Serial1.println(nowtime);
+                delay(50);
+                leftSpin(Motor);
+                delay(50);
+                walk(Motor);
+                i++;
+                break;
+            case 'r':
+                if(i != 0 && millis() - nowtime < 1000) continue;
+                Serial1.print("r ");
+                Serial1.println(nowtime);
+                delay(50);
+                rightSpin(Motor);
+                delay(50);
+                walk(Motor);
+                i++;
+                break;
+            default:
+                Motor->stop();
+                break;
+        }
     }
     state = 2;
 }
