@@ -51,7 +51,17 @@ void rightSpin(dual_motor* Motor)
   Motor->stop();
   delay(50);
   Motor->spin(RIGHT, 255);
-  delay(14000/spinSpeed); 
+  delay(13000/spinSpeed);
+  int nowDetect = detect();
+  if(nowDetect == 0)
+  {
+    Motor->spin(LEFT, 120);
+    while(nowDetect == 0)
+    {
+      nowDetect = detect();
+      continue;
+    }
+  }   
   Motor->stop();
   delay(200);
 }
@@ -61,7 +71,17 @@ void leftSpin(dual_motor* Motor)
   Motor->stop();
   delay(50);
   Motor->spin(LEFT, 255);
-  delay(14000/spinSpeed); 
+  delay(13000/spinSpeed);
+  int nowDetect = detect();
+  if(nowDetect == 0)
+  {
+    Motor->spin(RIGHT, 120);
+    while(nowDetect == 0)
+    {
+      nowDetect = detect();
+      continue;
+    }
+  } 
   Motor->stop();
   delay(200);
 }
@@ -71,7 +91,17 @@ void halfSpin(dual_motor* Motor)
   Motor->stop();
   delay(50);
   Motor->spin(RIGHT, 255);
-  delay(16000/(spinSpeed/2)); 
+  delay(16000/(spinSpeed/2));
+  int nowDetect = detect();
+  if(nowDetect == 0)
+  {
+    Motor->spin(LEFT, 120);
+    while(nowDetect == 0)
+    {
+      nowDetect = detect();
+      continue;
+    }
+  }  
   Motor->stop();
   delay(200);
 }
