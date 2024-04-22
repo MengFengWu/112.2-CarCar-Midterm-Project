@@ -1,6 +1,4 @@
-#ifndef dual_motor_h
-#define dual_motor_h
-
+#include <stdint.h>
 #include "Arduino.h"
 enum myEnum
 {
@@ -12,13 +10,12 @@ enum myEnum
 
 class dual_motor
 {
-    public:
-        //Constructor: given the pin channel: (left, right)(in1, in2, pwm) + standby, and the tuned front left right max signal 
-        dual_motor(uint8_t lin1, uint8_t lin2, uint8_t lpwm, uint8_t rin1, uint8_t rin2, uint8_t rpwm, uint8_t stby, uint8_t lmax = 255, uint8_t rmax = 255);
-
-        void write(int left_power, int right_power) const; //set the relative power of the left and right motor
-        void stop() const; 
-        void spin(int dir = LEFT, int speed = 255) const; //let the car spin LEFT or RIGHT, and set the relative power of each motor
+    public: 
+        dual_motor(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t lmax = 255, uint8_t rmax = 255);
+        void write(int, int) const; //set the relative power of the lef and right motor
+        void stop() const;
+        void spin(int dir = LEFT, int speed = 255) const;
+        void setMax(uint8_t lmax, uint8_t rmax);
 
     private: 
         uint8_t LIn1;
@@ -32,5 +29,3 @@ class dual_motor
         uint8_t RMax;
         void setDir(int, int) const;
 };
-
-#endif

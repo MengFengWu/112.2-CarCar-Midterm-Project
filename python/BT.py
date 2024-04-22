@@ -41,6 +41,7 @@ class Bluetooth:
 
     def serial_write_string(self, data: str):
         send = data.encode("utf-8")
+        print("to bt: " + data + "\n")
         self.serial.write(send)
 
     def serial_write_bytes(self, data: bytes):

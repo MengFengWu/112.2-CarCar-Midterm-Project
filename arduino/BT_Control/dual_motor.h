@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "Arduino.h"
 enum myEnum
 {
@@ -14,6 +15,7 @@ class dual_motor
         void write(int, int) const; //set the relative power of the lef and right motor
         void stop() const;
         void spin(int dir = LEFT, int speed = 255) const;
+        void setMax(uint8_t lmax, uint8_t rmax);
 
     private: 
         uint8_t LIn1;

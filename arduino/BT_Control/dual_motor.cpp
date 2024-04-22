@@ -27,23 +27,23 @@ void dual_motor::write(int lspeed, int rspeed) const
   if(lspeed >= 0)
   {
     setDir(LEFT, FORWARD);
-    analogWrite(LPWM, lspeed*255/LMax);
+    analogWrite(LPWM, lspeed*LMax/255);
   }
   else
   {
     setDir(LEFT, BACKWARD);
-    analogWrite(LPWM, -lspeed*255/LMax);
+    analogWrite(LPWM, -lspeed*LMax/255);
   }
   
   if(rspeed >= 0)
   {
     setDir(RIGHT, FORWARD);
-    analogWrite(RPWM, rspeed*255/RMax);
+    analogWrite(RPWM, rspeed*RMax/255);
   }
   else
   {
     setDir(RIGHT, BACKWARD);
-    analogWrite(RPWM, -rspeed*255/RMax);
+    analogWrite(RPWM, -rspeed*RMax/255);
   }
 }
 
@@ -68,8 +68,8 @@ void dual_motor::spin(int side, int speed) const
     setDir(RIGHT, FORWARD);
   }
 
-  analogWrite(LPWM, speed*255/LMax);
-  analogWrite(RPWM, speed*255/RMax);
+  analogWrite(LPWM, speed*LMax/255);
+  analogWrite(RPWM, speed*RMax/255);
 }
 
 void dual_motor::setDir(int side, int dir) const
@@ -102,3 +102,8 @@ void dual_motor::setDir(int side, int dir) const
   }
 }
 
+void dual_motor::setMax(uint8_t lmax, uint8_t rmax)
+{
+  LMax = lmax;
+  RMax = rmax;
+}

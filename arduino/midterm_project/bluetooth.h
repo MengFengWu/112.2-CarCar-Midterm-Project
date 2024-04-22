@@ -28,6 +28,10 @@ String ask_BT() {
 // 1. get cmd from Serial1(bluetooth serial)
 // 2. link bluetooth message to your own command type
       cmd = Serial1.readString();
+
+      //sallen reading code
+      Serial.print("BT receive: ");
+      Serial.println(cmd);
       /*
 #ifdef DEBUG
         Serial.print("cmd : ");
