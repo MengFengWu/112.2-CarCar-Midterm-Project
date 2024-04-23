@@ -17,12 +17,7 @@ void setup() {
 void loop() {
   if(Serial.available())
   {
-    Serial.print("millis: ");
-    Serial.print(millis());
-    Serial.print("; last: ");
-    Serial.print(last);
-    Serial.print("; time: ");
-    Serial.println(time);
+    Serial.println("read");
     Serial.readStringUntil('-');
     cmd = Serial.read();
     switch (cmd) 
