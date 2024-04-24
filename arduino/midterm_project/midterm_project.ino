@@ -148,10 +148,13 @@ void Search() {
     // code)
     //Serial.println("asking......");
     _cmd = ask_BT();
+    if(invalidCom(_cmd[0]))
+    {
+        Search();
+    }
     Serial.println(_cmd);
-    int i = 0;
     int nowtime = millis();
-    while(i < _cmd.length())
+    for(int i=0; i < _cmd.length(); i++)
     {
         switch(_cmd[i])
         {
@@ -166,7 +169,6 @@ void Search() {
                   else walk(Motor, 0);
                 }
                 else walk(Motor, 1);
-                i++;
                 break;
             case 'b':
                 if(i != 0 && millis() - nowtime < 1000) continue;
@@ -182,7 +184,6 @@ void Search() {
                   else walk(Motor, 0);
                 }
                 else walk(Motor, 1);
-                i++;
                 break;
             case 'l':
                 if(i != 0 && millis() - nowtime < 1000) continue;
@@ -198,7 +199,6 @@ void Search() {
                   else walk(Motor, 0);
                 }
                 else walk(Motor, 1);
-                i++;
                 break;
             case 'r':
                 if(i != 0 && millis() - nowtime < 1000) continue;
@@ -213,7 +213,6 @@ void Search() {
                   else walk(Motor, 0);
                 }
                 else walk(Motor, 1);
-                i++;
                 break;
             default:
                 Motor->stop();
