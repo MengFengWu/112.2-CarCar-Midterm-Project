@@ -1,3 +1,4 @@
+#include "HardwareSerial.h"
 /***************************************************************************/
 // File			  [bluetooth.h]
 // Author		  [Erik Kuo]
@@ -9,6 +10,14 @@
 /*if you have no idea how to start*/
 /*check out what you have learned from week 2*/
 
+bool invalidCom(char c)
+{
+  if(c == 'f' || c == 'b' || c == 'l' || c == 'r') 
+    return false;
+  
+  return true;
+}
+
 enum BT_CMD {
     NOTHING,
     // TODO: add your own command type here
@@ -19,27 +28,41 @@ enum BT_CMD {
     HALT
 };
 
+String cmds = "";
+
+void btDoRoutine()
+{
+  if(Serial1.available())
+  {
+    String get = Serial1.readString();
+    Serial.print("BT receive: ");
+    Serial.println(get);
+    for(int i=0; i<get.length(); i++)
+    {
+      if(!invalidCom(get[i]))
+      {
+        cmds += get[i];
+      }
+    }
+  }
+}
+
 String ask_BT() {
     //BT_CMD message = NOTHING;
+    String ret = cmds;
+    cmds = "";
+    return ret;
     String cmd;
     //Serial.print("asking...");
-    if (Serial1.available()) {
 // TODO:
 // 1. get cmd from Serial1(bluetooth serial)
 // 2. link bluetooth message to your own command type
-      cmd = Serial1.readString();
-
-      //sallen reading code
-      Serial.print("BT receive: ");
-      Serial.println(cmd);
       /*
 #ifdef DEBUG
         Serial.print("cmd : ");
         Serial.println(cmd);
 #endif
 */
-    }
-    return cmd;
 }  // ask_BT
 
 // send msg back through Serial1(bluetooth serial)

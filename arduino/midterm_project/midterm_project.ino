@@ -116,6 +116,7 @@ void SetState();  // switch the state
 
 /*===========================define function===========================*/
 void loop() {
+    btDoRoutine();
     if(state == 0) Motor->write(0, 0);
     else if(state == 1) Search();
     else if(state == 2)
@@ -148,10 +149,9 @@ void Search() {
     // code)
     //Serial.println("asking......");
     _cmd = ask_BT();
-    if(invalidCom(_cmd[0]))
-    {
-        Search();
-    }
+    if(_cmd.length() == 0)
+        return ;
+    Serial.print("Search by command: ");
     Serial.println(_cmd);
     int nowtime = millis();
     for(int i=0; i < _cmd.length(); i++)
@@ -163,10 +163,10 @@ void Search() {
                 nowtime = millis();
                 Serial1.print("f ");
                 Serial1.println(nowtime);
-                if(i + 1 < _cmd.length())
+                if(i + 1 <= _cmd.length())
                 {
-                  if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
-                  else walk(Motor, 0);
+                if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
+                else walk(Motor, 0);
                 }
                 else walk(Motor, 1);
                 break;
@@ -178,10 +178,10 @@ void Search() {
                 delay(50);
                 halfSpin(Motor);
                 delay(50);
-                if(i + 1 < _cmd.length())
+                if(i + 1 <= _cmd.length())
                 {
-                  if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
-                  else walk(Motor, 0);
+                if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
+                else walk(Motor, 0);
                 }
                 else walk(Motor, 1);
                 break;
@@ -193,10 +193,10 @@ void Search() {
                 delay(50);
                 leftSpin(Motor);
                 delay(50);
-                if(i + 1 < _cmd.length())
+                if(i + 1 <= _cmd.length())
                 {
-                  if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
-                  else walk(Motor, 0);
+                if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
+                else walk(Motor, 0);
                 }
                 else walk(Motor, 1);
                 break;
@@ -207,10 +207,10 @@ void Search() {
                 delay(50);
                 rightSpin(Motor);
                 delay(50);
-                if(i + 1 < _cmd.length())
+                if(i + 1 <= _cmd.length())
                 {
-                  if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
-                  else walk(Motor, 0);
+                if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
+                else walk(Motor, 0);
                 }
                 else walk(Motor, 1);
                 break;
@@ -218,13 +218,8 @@ void Search() {
                 Motor->stop();
                 break;
         }
+      state = 2;
     }
-    state = 2;
 }
 
-bool invalidCom(char c)
-{
-  if(c == 'f' || c == 'b' || c == 'l' || c == 'r') return false;
-  else return true;
-}
 /*===========================define function===========================*/
