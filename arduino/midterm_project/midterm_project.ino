@@ -159,59 +159,32 @@ void Search() {
         switch(_cmd[i])
         {
             case 'f':
-                if(i != 0 && millis() - nowtime < 1000) continue;
-                nowtime = millis();
                 Serial1.print("f ");
                 Serial1.println(nowtime);
-                if(i + 1 <= _cmd.length())
-                {
-                if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
-                else walk(Motor, 0);
-                }
                 else walk(Motor, 1);
                 break;
             case 'b':
-                if(i != 0 && millis() - nowtime < 1000) continue;
-                nowtime = millis();
                 Serial1.print("b ");
                 Serial1.println(nowtime);
                 delay(50);
                 halfSpin(Motor);
                 delay(50);
-                if(i + 1 <= _cmd.length())
-                {
-                if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
-                else walk(Motor, 0);
-                }
                 else walk(Motor, 1);
                 break;
             case 'l':
-                if(i != 0 && millis() - nowtime < 1000) continue;
-                nowtime = millis();
                 Serial1.print("l ");
                 Serial1.println(nowtime);
                 delay(50);
                 leftSpin(Motor);
                 delay(50);
-                if(i + 1 <= _cmd.length())
-                {
-                if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
-                else walk(Motor, 0);
-                }
                 else walk(Motor, 1);
                 break;
             case 'r':
-                if(i != 0 && millis() - nowtime < 1000) continue;
                 Serial1.print("r ");
                 Serial1.println(nowtime);
                 delay(50);
                 rightSpin(Motor);
                 delay(50);
-                if(i + 1 <= _cmd.length())
-                {
-                if(invalidCom(_cmd[i + 1])) walk(Motor, 1);
-                else walk(Motor, 0);
-                }
                 else walk(Motor, 1);
                 break;
             default:
