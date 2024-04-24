@@ -9,7 +9,7 @@
 #include "dual_motor.h"
 
 /*===========================import variable===========================*/
-int spinSpeed = 50;
+int spinSpeed = 45;
 void extern tracking(int l2, int l1, int m0, int r1, int r2, dual_motor* Motor);
 void extern send_msg(const char& msg);
 /*===========================import variable===========================*/
@@ -26,7 +26,7 @@ int detect()
   return count;
 }
 
-void walk(dual_motor* Motor, char Text = 'D')
+void walk(dual_motor* Motor, int type = 0)
 {
   int nowDetect = detect();
   int doubleCheck = 0;
@@ -36,16 +36,18 @@ void walk(dual_motor* Motor, char Text = 'D')
     if(nowDetect > 2) break;
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40), Motor);
     Serial.print("line ");
+    delay(50);
   }
   Serial.println();
   delay(100);
-  while(nowDetect > 2)
+  while(nowDetect > 2 && type == 0)
   {
     //tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40), Motor);
     Motor->write(255, 255);
     nowDetect = detect();
     //if(nowDetect <= 2) doubleCheck++;
     Serial.print("node ");
+    delay(50);
   }
   Serial.println();
 }

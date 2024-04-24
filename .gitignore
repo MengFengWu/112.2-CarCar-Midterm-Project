@@ -1,6 +1,6 @@
 .json
-.DS_store
-arduino/DS_store
+.DS_Store
+arduino/DS_Store
 arduino/midterm_project/.vscode/*
 .vscode
 .DS_store
