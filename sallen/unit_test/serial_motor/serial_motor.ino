@@ -7,7 +7,7 @@ uint32_t last = millis();
 char cmd;
 
 void setup() {
-  motor = new dual_motor(6, 5, 12, 3, 2, 11, 13, 250, 220);
+  motor = new dual_motor(6, 5, 12, 3, 2, 11, 13, 250, 220, 100);
   Serial.begin(115200);
   Serial.setTimeout(10);
   Serial.println("Serial Start");
@@ -46,7 +46,7 @@ void loop() {
 
   if(millis()-last < time)
   {
-    motor->write(left, right);
+    motor->smooth(left, right);
     delay(time);
     motor->stop();
     time = 0;

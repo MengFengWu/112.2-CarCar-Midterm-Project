@@ -36,8 +36,8 @@
 #define Motor_Stby 10
 //int LeftMotorMax = 208; //
 //int RightMotorMax = 240;    
-int LeftMotorMax = 250; //
-int RightMotorMax = 223;  
+int LeftMotorMax = 248; //
+int RightMotorMax = 255;  
 dual_motor* Motor;
 RFID* Rfid;  // 建立RFID物件
 
@@ -62,6 +62,7 @@ void setup() {
     delay(3000);
     // bluetooth initialization
     Serial1.begin(9600);
+    Serial1.setTimeout(10);
     // RFID initial
     SPI.begin();
     Rfid = new RFID(SS_PIN, RST_PIN);
@@ -105,7 +106,7 @@ void setup() {
 
 /*===========================initialize variables===========================*/
 int l2 = 0, l1 = 0, m0 = 0, r1 = 0, r2 = 0;  // 紅外線模組的讀值(0->white,1->black)                            // set your own value for motor power
-int state = 0, last_state = 1;     // 0: idle 1: moving 2: reading rfid
+int state = 1, last_state = 1;     // 0: idle 1: moving 2: reading rfid
 String _cmd;  // enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================initialize variables===========================*/
 
@@ -122,26 +123,26 @@ void loop() {
     else if(state == 2)
     {
         //Serial.println("gimme card");
-        Motor->write(0, 0);
-        delay(500);
-        if(Rfid->detectCard() && Rfid->haveData())
+        Motor->write(-35, -35);
+        while(!Rfid->detectCard() || !Rfid->haveData())
         {
-            Serial1.println(Rfid->getUid());
-            Serial.print(Rfid->getUid());
-            state = 0;
-            //send_msg(RFID->getUID());
         }
+        Serial1.println(Rfid->getUid());
+        Serial.print(Rfid->getUid());
+        state = 0;
+        //send_msg(RFID->getUID());
     }
     if(last_state != state)
     {
-      Serial.println(state);
-      last_state = state;
+        Serial.print("State change to: ");
+        Serial.println(state);
+        last_state = state;
     }
     SetState();
 }
 
 void SetState() {
-    if(Serial1.available() == 1 && state == 0) state = 1;
+    if(Serial1.available() && state == 0) state = 1;
 }
 
 void Search() {
@@ -153,46 +154,40 @@ void Search() {
         return ;
     Serial.print("Search by command: ");
     Serial.println(_cmd);
-    int nowtime = millis();
     for(int i=0; i < _cmd.length(); i++)
     {
         switch(_cmd[i])
         {
             case 'f':
-                Serial1.print("f ");
-                Serial1.println(nowtime);
-                else walk(Motor, 1);
+                Serial.print("f ");
+                Serial.println(millis());
                 break;
             case 'b':
-                Serial1.print("b ");
-                Serial1.println(nowtime);
-                delay(50);
+
+                Serial.print("b ");
+                Serial.println(millis());
                 halfSpin(Motor);
-                delay(50);
-                else walk(Motor, 1);
                 break;
             case 'l':
-                Serial1.print("l ");
-                Serial1.println(nowtime);
-                delay(50);
+                Serial.print("l ");
+                Serial.println(millis());
                 leftSpin(Motor);
-                delay(50);
-                else walk(Motor, 1);
                 break;
             case 'r':
-                Serial1.print("r ");
-                Serial1.println(nowtime);
-                delay(50);
+                Serial.print("r ");
+                Serial.println(millis());
                 rightSpin(Motor);
-                delay(50);
-                else walk(Motor, 1);
                 break;
             default:
                 Motor->stop();
                 break;
         }
-      state = 2;
+        if(i == _cmd.length()-1) //last noe to read uid
+            walk(Motor, 1);
+        else
+            walk(Motor, 0);
     }
+    state = 2;
 }
 
 /*===========================define function===========================*/

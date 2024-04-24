@@ -20,7 +20,7 @@ log = logging.getLogger(__name__)
 # TODO : Fill in the following information
 TEAM_NAME = "台大電機段奕鳴"
 SERVER_URL = "http://140.112.175.18:5000/"
-MAZE_FILE = "data/medium_maze.csv"
+MAZE_FILE = "data/ten_maze.csv"
 BT_PORT = "COM3"
 
 # python main.py --maze-file="data/small_maze.csv" --bt-port="21"`` --team-name="HELLO" --server-url="http://140.112.175.18:5000/" 1
@@ -42,8 +42,8 @@ def parse_args():
 def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str):
     #comment!!!
     maze = Maze(maze_file)
-    point = ScoreboardServer(team_name,server_url)
-    #point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
+    #point = ScoreboardServer(team_name,server_url)
+    point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
     interface = BTInterface(port=bt_port)
     # TODO : Initialize necessary variables
 
@@ -58,22 +58,24 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         goal = maze.BFS(start)
         path = maze.BFS_2(start, goal)
         cmd = maze.actions_to_str(maze.getActions(path))
-        for i in range(0, len(cmd)):
-            interface.send_action(cmd[i])
+
+        interface.send_action(cmd);
+        """for i in range(0, len(cmd)):
+            interface.send_action(cmd[i])"""
         while True:
             s = interface.receive_message()
             if len(s) >= 8:
+                print(s[0:8])
                 point.add_UID(s[0:8])
                 point.get_current_score()
-                print(s[0:8])
                 start = goal
                 goal = maze.BFS(start)
                 if start != goal:
                     path = maze.BFS_2(start, goal)
                     cmd = maze.actions_to_str(maze.getActions(path))
-                    interface.send_action('b')
-                    for i in range(1, len(cmd)):
-                        interface.send_action(cmd[i])
+                    interface.send_action("b" + cmd[1:])
+                    """for i in range(1, len(cmd)):
+                        interface.send_action(cmd[i])"""
         
         """
         for i in range(1, 12):
