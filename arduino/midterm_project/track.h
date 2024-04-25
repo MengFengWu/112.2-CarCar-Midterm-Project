@@ -64,7 +64,7 @@ void tracking(int l2, int l1, int m0, int r1, int r2, dual_motor* Motor) {
     // TODO: find your own parameters!
     double _w0 = 0.0;  //
     double _w1 = 1.5;  //
-    double _w2 = 2.0;  //
+    double _w2 = 4.0;  //
     double _Kp;  // p term parameter
     double _Kd;  // d term parameter (optional)
     double _Ki;  // i term parameter (optional) (Hint: 不要調太大)
@@ -77,7 +77,7 @@ void tracking(int l2, int l1, int m0, int r1, int r2, dual_motor* Motor) {
     if(l2 + l1 + m0 + r1 + r2 != 0) error /= l2 + l1 + m0 + r1 + r2;
     if(error < 0)
     {
-      adj_R = 1 / (-1) * error;
+      adj_R = 1 / ((-1) * error);
     }
     else if(error > 0)
     {

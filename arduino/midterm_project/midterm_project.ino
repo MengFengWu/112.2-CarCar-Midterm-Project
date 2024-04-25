@@ -34,10 +34,10 @@
 #define MotorL_I4 5     // 定義 B2 接腳（左）
 #define MotorL_PWML 12  // 定義 ENB (PWM調速) 接腳
 #define Motor_Stby 10
-//int LeftMotorMax = 208; //
-//int RightMotorMax = 240;    
-int LeftMotorMax = 248; //
-int RightMotorMax = 255;  
+//int LeftMotorMax = 122; //
+//int RightMotorMax = 122;    
+int LeftMotorMax = 248;
+int RightMotorMax = 230;  
 dual_motor* Motor;
 RFID* Rfid;  // 建立RFID物件
 
@@ -86,21 +86,6 @@ void setup() {
 #ifdef DEBUG
     Serial.println("Start!");
 #endif
-/*
-    walk(Motor, '1');
-    //tone(Buzzer_PIN, 1310, 100);
-    delay(50);
-    leftSpin(Motor);
-    walk(Motor, '2');
-    //tone(Buzzer_PIN, 655, 100);
-    delay(50);
-    leftSpin(Motor);
-    walk(Motor, '3');
-    //tone(Buzzer_PIN, 655, 100);
-    walk(Motor, '4');
-    //tone(Buzzer_PIN, 655, 100);
-    Motor->stop();
-    */
 }
 /*============setup============*/
 
@@ -139,6 +124,24 @@ void loop() {
         last_state = state;
     }
     SetState();
+}
+
+void test_loop()
+{
+    walk(Motor);
+    rightSpin(Motor);
+    walk(Motor);
+    halfSpin(Motor);
+    walk(Motor);
+    walk(Motor);
+    halfSpin(Motor);
+    walk(Motor);
+    leftSpin(Motor);
+    walk(Motor);
+    halfSpin(Motor);
+    walk(Motor);
+    walk(Motor);
+    halfSpin(Motor);
 }
 
 void SetState() {
