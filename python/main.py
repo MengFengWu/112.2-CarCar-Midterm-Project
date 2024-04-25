@@ -20,8 +20,8 @@ log = logging.getLogger(__name__)
 # TODO : Fill in the following information
 TEAM_NAME = "台大電機段奕鳴"
 SERVER_URL = "http://140.112.175.18:5000/"
-MAZE_FILE = "data/ten_maze.csv"
-BT_PORT = "COM3"
+MAZE_FILE = "data/medium_maze.csv"
+BT_PORT = "COM5"
 
 # python main.py --maze-file="data/small_maze.csv" --bt-port="21"`` --team-name="HELLO" --server-url="http://140.112.175.18:5000/" 1
 # python main.py 1
@@ -42,9 +42,9 @@ def parse_args():
 def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str):
     #comment!!!
     maze = Maze(maze_file)
-    #point = ScoreboardServer(team_name,server_url)
-    point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
     interface = BTInterface(port=bt_port)
+    point = ScoreboardServer(team_name,server_url)
+    #point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
     # TODO : Initialize necessary variables
 
     if mode == "0":
@@ -59,7 +59,7 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         path = maze.BFS_2(start, goal)
         cmd = maze.actions_to_str(maze.getActions(path))
 
-        interface.send_action(cmd);
+        interface.send_action("f" + cmd);
         """for i in range(0, len(cmd)):
             interface.send_action(cmd[i])"""
         while True:
@@ -76,6 +76,7 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                     interface.send_action("b" + cmd[1:])
                     """for i in range(1, len(cmd)):
                         interface.send_action(cmd[i])"""
+                else: point.socket.disconnect()
         
         """
         for i in range(1, 12):
