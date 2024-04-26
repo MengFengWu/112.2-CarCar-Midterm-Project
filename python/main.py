@@ -76,7 +76,11 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                     interface.send_action("b" + cmd[1:])
                     """for i in range(1, len(cmd)):
                         interface.send_action(cmd[i])"""
-                else: point.socket.disconnect()
+                    if not point.socket.connected():
+                        interface.send_action("g")
+                else: 
+                    point.socket.disconnect()
+                    interface.send_action("g")
         
         """
         for i in range(1, 12):
