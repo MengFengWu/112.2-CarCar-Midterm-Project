@@ -12,7 +12,7 @@
 
 bool invalidCom(char c)
 {
-  if(c == 'f' || c == 'b' || c == 'l' || c == 'r') 
+  if(c == 'f' || c == 'b' || c == 'l' || c == 'r' || c == 'g') 
     return false;
   
   return true;

@@ -16,6 +16,7 @@
 #include "bluetooth.h"
 #include "node_new.h"
 #include "track.h"
+#include "buzzer.h"
 /*=====Import header files=====*/
 
 /*===========================define pin & create module object================================*/
@@ -36,8 +37,8 @@
 #define Motor_Stby 10
 //int LeftMotorMax = 122; //
 //int RightMotorMax = 122;    
-int LeftMotorMax = 248;
-int RightMotorMax = 230;  
+int LeftMotorMax = 250;
+int RightMotorMax = 240;  
 dual_motor* Motor;
 RFID* Rfid;  // 建立RFID物件
 
@@ -102,7 +103,6 @@ int NowTime = millis();
 /*===========================declare function prototypes===========================*/
 
 /*===========================define function===========================*/
-/*
 void loop() {
     btDoRoutine();
     if(state == 0) Motor->write(0, 0);
@@ -129,9 +129,8 @@ void loop() {
     }
     SetState();
 }
-*/
 
-void loop()
+void test_loop()
 {
     walk(Motor);
     rightSpin(Motor);
@@ -187,6 +186,11 @@ void Search() {
                 Serial.print("r ");
                 Serial.println(millis());
                 rightSpin(Motor);
+                break;
+
+            case 'g':
+                //music!
+                playMusic();
                 break;
             default:
                 Motor->stop();
