@@ -112,9 +112,16 @@ void loop() {
         //Serial.println("gimme card");
         Motor->write(-35, -35);
         NowTime = millis();
-        while(!Rfid->detectCard() || !Rfid->haveData())
+        while(!Rfid->detectCard())
         {
-            if(millis() - NowTime >= 2000) break;
+            if(millis() - NowTime >= 2000) 
+            {
+              noTone(7);
+              break;
+            }
+            else {
+              tone(7, 32);
+            }
         }
         Serial1.println(Rfid->getUid());
         Serial.print(Rfid->getUid());
