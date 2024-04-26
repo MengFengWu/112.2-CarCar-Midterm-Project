@@ -80,7 +80,7 @@ void rightSpin(dual_motor* Motor)
   int nowDetect = detectCenter();
   if(nowDetect == 0)
   {
-    tone(7, 1310, 100);
+    //tone(7, 1310, 100);
     Motor->spin(RIGHT, 120);
     while(nowDetect == 0)
     {
@@ -89,7 +89,7 @@ void rightSpin(dual_motor* Motor)
       continue;
     }
   }   
-  noTone(7);
+  //noTone(7);
   Motor->stop();
   delay(200);
 }
@@ -103,7 +103,7 @@ void leftSpin(dual_motor* Motor)
   int nowDetect = detectCenter();
   if(nowDetect == 0)
   {
-    tone(7, 1310, 100);
+    //tone(7, 1310, 100);
     Motor->spin(LEFT, 120);
     while(nowDetect == 0)
     {
@@ -112,7 +112,7 @@ void leftSpin(dual_motor* Motor)
       continue;
     }
   } 
-  noTone(7);
+  //noTone(7);
   Motor->stop();
   delay(200);
 }
@@ -126,7 +126,7 @@ void halfSpin(dual_motor* Motor)
   int nowDetect = detectCenter();
   if(nowDetect == 0)
   {
-    tone(7, 1310, 100);
+    //tone(7, 1310, 100);
     Motor->spin(RIGHT, 120);
     while(nowDetect == 0)
     {
@@ -135,7 +135,7 @@ void halfSpin(dual_motor* Motor)
       continue;
     }
   }  
-  noTone(7);
+  //noTone(7);
   Motor->stop();
   delay(200);
 }

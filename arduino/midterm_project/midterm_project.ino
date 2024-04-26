@@ -14,7 +14,7 @@
 
 /*=====Import header files=====*/
 #include "bluetooth.h"
-#include "node.h"
+#include "node_new.h"
 #include "track.h"
 /*=====Import header files=====*/
 
@@ -98,6 +98,7 @@ String _cmd;  // enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================declare function prototypes===========================*/
 void Search();    // search graph
 void SetState();  // switch the state
+int NowTime = millis();
 /*===========================declare function prototypes===========================*/
 
 /*===========================define function===========================*/
@@ -109,8 +110,10 @@ void loop() {
     {
         //Serial.println("gimme card");
         Motor->write(-35, -35);
+        NowTime = millis();
         while(!Rfid->detectCard() || !Rfid->haveData())
         {
+            if(millis() - NowTime >= 5000) break;
         }
         Serial1.println(Rfid->getUid());
         Serial.print(Rfid->getUid());
@@ -133,6 +136,7 @@ void test_loop()
     walk(Motor);
     halfSpin(Motor);
     walk(Motor);
+    forward(Motor);
     walk(Motor);
     halfSpin(Motor);
     walk(Motor);
@@ -140,6 +144,7 @@ void test_loop()
     walk(Motor);
     halfSpin(Motor);
     walk(Motor);
+    forward(Motor);
     walk(Motor);
     halfSpin(Motor);
 }
@@ -164,9 +169,9 @@ void Search() {
             case 'f':
                 Serial.print("f ");
                 Serial.println(millis());
+                forward(Motor);
                 break;
             case 'b':
-
                 Serial.print("b ");
                 Serial.println(millis());
                 halfSpin(Motor);
