@@ -55,6 +55,8 @@ void walk(dual_motor* Motor, int type = 0)
     Serial.print("line ");
     delay(50);
   }
+  Motor->write(255, 255);
+  delay(100);
 }
 
 void forward(dual_motor* Motor)

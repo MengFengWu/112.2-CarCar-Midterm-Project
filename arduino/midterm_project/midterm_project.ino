@@ -102,6 +102,7 @@ int NowTime = millis();
 /*===========================declare function prototypes===========================*/
 
 /*===========================define function===========================*/
+/*
 void loop() {
     btDoRoutine();
     if(state == 0) Motor->write(0, 0);
@@ -113,7 +114,7 @@ void loop() {
         NowTime = millis();
         while(!Rfid->detectCard() || !Rfid->haveData())
         {
-            if(millis() - NowTime >= 5000) break;
+            if(millis() - NowTime >= 2000) break;
         }
         Serial1.println(Rfid->getUid());
         Serial.print(Rfid->getUid());
@@ -128,8 +129,9 @@ void loop() {
     }
     SetState();
 }
+*/
 
-void test_loop()
+void loop()
 {
     walk(Motor);
     rightSpin(Motor);
@@ -190,11 +192,9 @@ void Search() {
                 Motor->stop();
                 break;
         }
-        if(i == _cmd.length()-1) //last noe to read uid
-            walk(Motor, 1);
-        else
-            walk(Motor, 0);
+        walk(Motor);
     }
+    Motor->stop();
     state = 2;
 }
 
