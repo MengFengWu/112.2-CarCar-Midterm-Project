@@ -2,7 +2,7 @@
 #include "Arduino.h"
 
 
-dual_motor::dual_motor(uint8_t lin1, uint8_t lin2, uint8_t lpwm, uint8_t rin1, uint8_t rin2, uint8_t rpwm, uint8_t stby, uint8_t lmax, uint8_t rmax, int smthdelay): LIn1(lin1), LIn2(lin2), LPWM(lpwm), RIn1(rin1), RIn2(rin2), RPWM(rpwm), STBY(stby), LMax(lmax), RMax(rmax), SMOOTH_DELAY(smthdelay)
+dual_motor::dual_motor(uint8_t lin1, uint8_t lin2, uint8_t lpwm, uint8_t rin1, uint8_t rin2, uint8_t rpwm, uint8_t stby, uint8_t lmax, uint8_t rmax, int smthdevide, int smthdelay): LIn1(lin1), LIn2(lin2), LPWM(lpwm), RIn1(rin1), RIn2(rin2), RPWM(rpwm), STBY(stby), LMax(lmax), RMax(rmax), SMOOTH_DELAY(smthdelay)
 {
   pinMode(LIn1, OUTPUT);
   pinMode(LIn2, OUTPUT);
@@ -84,37 +84,12 @@ void dual_motor::setMax(uint8_t lmax, uint8_t rmax)
 
 void dual_motor::smooth(int left, int right)
 {
-  if(left > leftspeed && right > rightspeed)
+  double left_delta = (left - leftspeed)/smthdevide;
+  double right_delta = (right - rightspeed)/smthdevide;
+  for(; abs(leftspeed-left) > 2 && abs(rightspeed-right) > 2; leftspeed+=left_delta, rightspeed+=right_delta)
   {
-    for(; leftspeed<left && rightspeed<right; leftspeed++, rightspeed++)
-    {
-      write(leftspeed, rightspeed);
-      delayMicroseconds(SMOOTH_DELAY);
-    }
-  }
-  if(left < leftspeed && right > rightspeed)
-  {
-    for(; leftspeed>left && rightspeed<right; leftspeed--, rightspeed++)
-    {
-      write(leftspeed, rightspeed);
-      delayMicroseconds(SMOOTH_DELAY);
-    }
-  }
-  if(left > leftspeed && right < rightspeed)
-  {
-    for(; leftspeed<left && rightspeed>right; leftspeed++, rightspeed--)
-    {
-      write(leftspeed, rightspeed);
-      delayMicroseconds(SMOOTH_DELAY);
-    }
-  }
-  if(left < leftspeed && right < rightspeed)
-  {
-    for(; leftspeed>left && rightspeed>right; leftspeed--, rightspeed--)
-    {
-      write(leftspeed, rightspeed);
-      delayMicroseconds(SMOOTH_DELAY);
-    }
+    write(leftspeed, rightspeed);
+    delayMicroseconds(smthdelay);
   }
 }
 

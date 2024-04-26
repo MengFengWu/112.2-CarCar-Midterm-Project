@@ -13,7 +13,8 @@ enum myEnum
 class dual_motor
 {
     public: 
-        dual_motor(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t lmax = 255, uint8_t rmax = 255, int smthdelay = 20);
+        //signal pins *7 and set default left, right maximum, and the times, delay length(in microseconds) in smooth()
+        dual_motor(uint8_t lin1, uint8_t lin2, uint8_t lpwm, uint8_t rin1, uint8_t rin2, uint8_t rpwm, uint8_t stby, uint8_t lmax = 255, uint8_t rmax = 255, int smthdevide = 100, int smthdelay = 10);
         void write(int, int) const; //set the relative power of the lef and right motor
         void stop() const;
         void spin(int dir = LEFT, int speed = 255) const;
