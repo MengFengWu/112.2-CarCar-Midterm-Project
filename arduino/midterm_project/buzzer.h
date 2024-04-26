@@ -107,6 +107,7 @@ const PROGMEM int melody[] = {
   // https://musescore.com/user/263171/scores/883296
   
   //B-flat major Bb Eb
+  /*
   REST, 4, NOTE_G5, 4,
   NOTE_A5, 4, NOTE_AS5, 4,
   NOTE_A5, 4, NOTE_F5, 4,
@@ -125,6 +126,7 @@ const PROGMEM int melody[] = {
 
   NOTE_A5, 4, NOTE_AS5, 8, NOTE_C6, 8, //15
   NOTE_F6, 8, REST, 8, REST, 4,
+  */
   NOTE_G5, 16, NOTE_D5, 16, NOTE_D6, 16, NOTE_D5, 16, NOTE_C6, 16, NOTE_D5, 16, NOTE_AS5, 16, NOTE_D5, 16,
   NOTE_A5, 16, NOTE_D5, 16, NOTE_AS5, 16, NOTE_D5, 16, NOTE_A5, 16, NOTE_D5, 16, NOTE_G5, 16, NOTE_D5, 16,
   NOTE_A5, 16, NOTE_D5, 16, NOTE_AS5, 16, NOTE_D5, 16, NOTE_C6, 16, NOTE_D5, 16, NOTE_AS5, 16, NOTE_D5, 16,

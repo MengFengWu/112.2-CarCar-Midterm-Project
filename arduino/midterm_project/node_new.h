@@ -55,8 +55,8 @@ void walk(dual_motor* Motor, int type = 0)
     Serial.print("line ");
     delay(50);
   }
-  Motor->write(255, 255);
-  delay(100);
+  //Motor->write(150, 150);
+  //delay(100);
 }
 
 void forward(dual_motor* Motor)
@@ -75,7 +75,8 @@ void forward(dual_motor* Motor)
 
 void rightSpin(dual_motor* Motor)
 {
-  Motor->write(255, 75);
+  Motor->write(255, 60);
+  //Motor->write(255, 75);
   delay(modi[0] * spinTime(spinSpeed));
   int nowDetect = detectCenter();
   if(nowDetect == 0)
@@ -88,6 +89,7 @@ void rightSpin(dual_motor* Motor)
       delay(10);
       continue;
     }
+    tone(7, 16,1000);
   }   
   //noTone(7);
 }

@@ -38,7 +38,7 @@
 //int LeftMotorMax = 122; //
 //int RightMotorMax = 122;    
 int LeftMotorMax = 250;
-int RightMotorMax = 240;  
+int RightMotorMax = 220;  
 dual_motor* Motor;
 RFID* Rfid;  // 建立RFID物件
 
