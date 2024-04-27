@@ -37,8 +37,8 @@
 #define Motor_Stby 10
 //int LeftMotorMax = 122; //
 //int RightMotorMax = 122;    
-int LeftMotorMax = 250;
-int RightMotorMax = 220;  
+int LeftMotorMax = 255;
+int RightMotorMax = 215;
 dual_motor* Motor;
 RFID* Rfid;  // 建立RFID物件
 
@@ -119,7 +119,8 @@ void loop() {
               noTone(7);
               break;
             }
-            else {
+            else 
+            {
               tone(7, 32);
             }
         }
@@ -159,7 +160,7 @@ void test_loop()
     halfSpin(Motor);
 }
 
-void SetState() 
+void SetState()
 {
     if(cmdAvailable() && state == 0) state = 1;
 }
@@ -193,6 +194,7 @@ void Search() {
                 leftSpin(Motor);
                 break;
             case 'r':
+                delay(200); //try to let the right spin start at the correct place
                 Serial.print("r ");
                 Serial.println(millis());
                 rightSpin(Motor);

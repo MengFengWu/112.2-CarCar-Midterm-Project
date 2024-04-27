@@ -65,7 +65,7 @@ void forward(dual_motor* Motor)
   int nowDetect = detect();
   Motor->write(255, 255);
   delay(100);
-  while(nowDetect > 2)
+  while(nowDetect > 3)
   {
     Motor->write(255, 255);
     nowDetect = detect();
