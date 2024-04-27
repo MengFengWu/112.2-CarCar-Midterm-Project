@@ -65,6 +65,11 @@ String ask_BT() {
 */
 }  // ask_BT
 
+bool cmdAvailable()
+{
+    return cmds.length()>0;
+}
+
 // send msg back through Serial1(bluetooth serial)
 // can use send_byte alternatively to send msg back
 // (but need to convert to byte type)

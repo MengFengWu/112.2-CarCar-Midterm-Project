@@ -158,7 +158,7 @@ void test_loop()
 }
 
 void SetState() {
-    if(Serial1.available() && state == 0) state = 1;
+    if(cmdAvailable() && state == 0) state = 1;
 }
 
 void Search() {
