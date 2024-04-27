@@ -124,7 +124,7 @@ void loop() {
             }
         }
         Serial1.println(Rfid->getUid());
-        Serial1.print("Uid: ")
+        Serial1.print("Uid: ");
         Serial.println(Rfid->getUid());
         Motor->stop();
         state = 1;
