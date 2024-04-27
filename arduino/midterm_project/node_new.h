@@ -1,3 +1,4 @@
+#include "HardwareSerial.h"
 /***************************************************************************/
 // File			  [node.h]
 // Author		  [Erik Kuo, Joshua Lin]
@@ -89,7 +90,8 @@ void rightSpin(dual_motor* Motor)
       delay(10);
       continue;
     }
-    tone(7, 16,1000);
+    Serial.println("right spin leave");
+    //tone(7, 16,1000);
   }   
   //noTone(7);
 }
@@ -109,6 +111,7 @@ void leftSpin(dual_motor* Motor)
       delay(10);
       continue;
     }
+    Serial.println("left spin leave");
   } 
   //noTone(7);
 }
