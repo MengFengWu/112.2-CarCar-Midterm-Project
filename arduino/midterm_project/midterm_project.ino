@@ -159,7 +159,8 @@ void test_loop()
     halfSpin(Motor);
 }
 
-void SetState() {
+void SetState() 
+{
     if(cmdAvailable() && state == 0) state = 1;
 }
 
