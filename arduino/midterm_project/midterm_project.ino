@@ -127,7 +127,7 @@ void loop() {
         Serial1.print("Uid: ")
         Serial.println(Rfid->getUid());
         Motor->stop();
-        state = 0;
+        state = 1;
         //send_msg(RFID->getUID());
     }
     if(last_state != state)
