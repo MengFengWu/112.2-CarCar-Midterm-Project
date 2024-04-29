@@ -165,7 +165,56 @@ void SetState()
     if(cmdAvailable() && state == 0) state = 1;
 }
 
-void Search() {
+void Search()
+{
+    _cmd = ask_BT();
+    for(int i=0; i<_cmd.length(); i++)
+    {
+        switch (_cmd[i]) 
+        {
+            case 'f':
+                Serial.print("f ");
+                Serial.println(millis());
+                forward(Motor);
+                break;
+
+            case 'b':
+                Serial.print("b ");
+                Serial.println(millis());
+                halfSpin(Motor);
+                break;
+
+            case 'l':
+                Serial.print("l ");
+                Serial.println(millis());
+                leftSpin(Motor);
+                break;
+
+            case 'r':
+                delay(200); //try to let the right spin start at the correct place
+                Serial.print("r ");
+                Serial.println(millis());
+                rightSpin(Motor);
+                break;
+
+            case '?': //read uid
+                state = 2;
+                break;
+
+            case 'g':
+                //music!
+                playMusic();
+                break;
+            default:
+                Motor->stop();
+                break;
+        }
+        Serial1.print("get");
+        walk(Motor);
+    }
+}
+
+/*void Search() {
     // TODO: let your car search graph(maze) according to bluetooth command from computer(python
     // code)
     //Serial.println("asking......");
@@ -199,6 +248,9 @@ void Search() {
                 Serial.println(millis());
                 rightSpin(Motor);
                 break;
+            case '?': //read uid
+                state = 2;
+                break;
 
             case 'g':
                 //music!
@@ -208,10 +260,13 @@ void Search() {
                 Motor->stop();
                 break;
         }
+        Serial1.print("get");
         walk(Motor);
+
     }
     Motor->stop();
-    state = 2;
-}
+    Serial1.print("Finish");
+    //state = 2;
+}*/
 
 /*===========================define function===========================*/

@@ -2,7 +2,7 @@
 #include "Arduino.h"
 
 
-dual_motor::dual_motor(uint8_t lin1, uint8_t lin2, uint8_t lpwm, uint8_t rin1, uint8_t rin2, uint8_t rpwm, uint8_t stby, uint8_t lmax, uint8_t rmax, int smthdevide, int smthdelay): LIn1(lin1), LIn2(lin2), LPWM(lpwm), RIn1(rin1), RIn2(rin2), RPWM(rpwm), STBY(stby), LMax(lmax), RMax(rmax), SMOOTH_DELAY(smthdelay)
+dual_motor::dual_motor(uint8_t lin1, uint8_t lin2, uint8_t lpwm, uint8_t rin1, uint8_t rin2, uint8_t rpwm, uint8_t stby, uint8_t lmax, uint8_t rmax, int smthdevide, int smthdelay): LIn1(lin1), LIn2(lin2), LPWM(lpwm), RIn1(rin1), RIn2(rin2), RPWM(rpwm), STBY(stby), LMax(lmax), RMax(rmax)//, SMOOTH_DELAY(smthdelay)
 {
   pinMode(LIn1, OUTPUT);
   pinMode(LIn2, OUTPUT);
@@ -81,7 +81,7 @@ void dual_motor::setMax(uint8_t lmax, uint8_t rmax)
   LMax = lmax;
   RMax = rmax;
 }
-
+/*
 void dual_motor::smooth(int left, int right)
 {
   double left_delta = (left - leftspeed)/smthdevide;
@@ -92,11 +92,13 @@ void dual_motor::smooth(int left, int right)
     delayMicroseconds(smthdelay);
   }
 }
-
+*/
+/*
 void dual_motor::setSmoothDelay(int microseconds)
 {
   SMOOTH_DELAY = microseconds;
 }
+*/
 
 void dual_motor::setDir(int side, int dir) const
 {
