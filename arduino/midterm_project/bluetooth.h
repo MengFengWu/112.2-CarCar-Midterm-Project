@@ -54,6 +54,9 @@ char ask_BT()
     {
         ret = cmds[0];
     }
+    else {
+        return 0;
+    }
     String tmp = cmds;
     cmds = "";
     for(int i=1; i<tmp.length(); i++)

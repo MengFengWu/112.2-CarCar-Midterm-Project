@@ -64,13 +64,14 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         while True:
             s = interface.receive_message()
             print(s)
-            if s == "get":
-                if counter + 3 >= len(cmd):
-                    interface.send_action(cmd[counter : len(cmd)])
+            if s[0:3] == "get":
+                print("I get!")
+                if counter >= len(cmd):
+                    print("I break!")
                     break
                 else: 
-                    interface.send_action(cmd[counter : counter + 3])
-                    counter = counter + 3
+                    interface.send_action(cmd[counter])
+                    counter = counter + 1
                 
                 
         """for i in range(0, len(cmd)):
@@ -91,18 +92,19 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                     counter = 3
                     while True:
                         s = interface.receive_message()
-                        if s == "get":
-                            if counter + 3 >= len(cmd):
-                                interface.send_action(cmd[counter : len(cmd)])
+                        if s[0:3] == "get":
+                            if counter >= len(cmd):
                                 break
                             else: 
-                                interface.send_action(cmd[counter : counter + 3])
-                                counter = counter + 3
-                    if not point.socket.connected():
+                                interface.send_action(cmd[counter])
+                                counter = counter + 1
+                    if not point.socket.connected:
                         interface.send_action("g")
+                        break
                 else: 
                     point.socket.disconnect()
                     interface.send_action("g")
+                    break
         
         """
         for i in range(1, 12):

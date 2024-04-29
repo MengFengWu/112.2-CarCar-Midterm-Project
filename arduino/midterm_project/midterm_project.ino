@@ -169,6 +169,13 @@ void SetState()
 void Search()
 {
     _cmd = ask_BT();
+    if(_cmd == 0)
+        return;
+    if(_cmd.length()>0)
+    {    
+        Serial.print("_cmd: ");
+        Serial.println(_cmd);
+    }
     for(int i=0; i<_cmd.length(); i++)
     {
         switch (_cmd[i]) 
