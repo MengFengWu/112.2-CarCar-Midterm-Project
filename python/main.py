@@ -58,17 +58,21 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         goal = maze.BFS(start)
         path = maze.BFS_2(start, goal)
         cmd = maze.actions_to_str(maze.getActions(path))
-        interface.send_action(cmd[0:2])
-        counter = 2
+        cmd = cmd + "?"
+        interface.send_action(cmd[0:3])
+        counter = 3
         while True:
-            s= interface.receive_message()
+            s = interface.receive_message()
             print(s)
             if s == "get":
-                interface.send_action(cmd[counter])
-                if not counter == len(cmd):
-                    counter = counter + 1
-                else: 
+                if counter + 3 >= len(cmd):
+                    interface.send_action(cmd[counter : len(cmd)])
                     break
+                else: 
+                    interface.send_action(cmd[counter : counter + 3])
+                    counter = counter + 3
+                
+                
         """for i in range(0, len(cmd)):
             interface.send_action(cmd[i])"""
         while True:
@@ -82,16 +86,18 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                 if start != goal:
                     path = maze.BFS_2(start, goal)
                     cmd = maze.actions_to_str(maze.getActions(path))
+                    cmd = cmd + "?"
                     interface.send_action("b" + cmd[1:3])
                     counter = 3
                     while True:
                         s = interface.receive_message()
-                        if s== "get":
-                            interface.send_action(cmd[counter])
-                            if not counter == len(cmd):
-                                counter = counter + 1
-                            else: 
+                        if s == "get":
+                            if counter + 3 >= len(cmd):
+                                interface.send_action(cmd[counter : len(cmd)])
                                 break
+                            else: 
+                                interface.send_action(cmd[counter : counter + 3])
+                                counter = counter + 3
                     if not point.socket.connected():
                         interface.send_action("g")
                 else: 
