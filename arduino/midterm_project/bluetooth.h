@@ -12,7 +12,7 @@
 
 bool invalidCom(char c)
 {
-  if(c == 'f' || c == 'b' || c == 'l' || c == 'r') 
+  if(c == 'f' || c == 'b' || c == 'l' || c == 'r' || c == 'g') 
     return false;
   
   return true;
@@ -64,6 +64,11 @@ String ask_BT() {
 #endif
 */
 }  // ask_BT
+
+bool cmdAvailable()
+{
+    return cmds.length()>0;
+}
 
 // send msg back through Serial1(bluetooth serial)
 // can use send_byte alternatively to send msg back

@@ -14,8 +14,9 @@
 
 /*=====Import header files=====*/
 #include "bluetooth.h"
-#include "node.h"
+#include "node_new.h"
 #include "track.h"
+#include "buzzer.h"
 /*=====Import header files=====*/
 
 /*===========================define pin & create module object================================*/
@@ -36,8 +37,8 @@
 #define Motor_Stby 10
 //int LeftMotorMax = 122; //
 //int RightMotorMax = 122;    
-int LeftMotorMax = 248;
-int RightMotorMax = 230;  
+int LeftMotorMax = 255;
+int RightMotorMax = 200;
 dual_motor* Motor;
 RFID* Rfid;  // 建立RFID物件
 
@@ -98,6 +99,7 @@ String _cmd;  // enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================declare function prototypes===========================*/
 void Search();    // search graph
 void SetState();  // switch the state
+int NowTime = millis();
 /*===========================declare function prototypes===========================*/
 
 /*===========================define function===========================*/
@@ -109,12 +111,24 @@ void loop() {
     {
         //Serial.println("gimme card");
         Motor->write(-35, -35);
-        while(!Rfid->detectCard() || !Rfid->haveData())
+        NowTime = millis();
+        while(!Rfid->detectCard())
         {
+            if(millis() - NowTime >= 2000) 
+            {
+              noTone(7);
+              break;
+            }
+            else 
+            {
+              tone(7, 32);
+            }
         }
         Serial1.println(Rfid->getUid());
-        Serial.print(Rfid->getUid());
-        state = 0;
+        Serial1.print("Uid: ");
+        Serial.println(Rfid->getUid());
+        Motor->stop();
+        state = 1;
         //send_msg(RFID->getUID());
     }
     if(last_state != state)
@@ -133,6 +147,7 @@ void test_loop()
     walk(Motor);
     halfSpin(Motor);
     walk(Motor);
+    forward(Motor);
     walk(Motor);
     halfSpin(Motor);
     walk(Motor);
@@ -140,12 +155,14 @@ void test_loop()
     walk(Motor);
     halfSpin(Motor);
     walk(Motor);
+    forward(Motor);
     walk(Motor);
     halfSpin(Motor);
 }
 
-void SetState() {
-    if(Serial1.available() && state == 0) state = 1;
+void SetState()
+{
+    if(cmdAvailable() && state == 0) state = 1;
 }
 
 void Search() {
@@ -164,9 +181,9 @@ void Search() {
             case 'f':
                 Serial.print("f ");
                 Serial.println(millis());
+                forward(Motor);
                 break;
             case 'b':
-
                 Serial.print("b ");
                 Serial.println(millis());
                 halfSpin(Motor);
@@ -177,19 +194,23 @@ void Search() {
                 leftSpin(Motor);
                 break;
             case 'r':
+                delay(200); //try to let the right spin start at the correct place
                 Serial.print("r ");
                 Serial.println(millis());
                 rightSpin(Motor);
+                break;
+
+            case 'g':
+                //music!
+                playMusic();
                 break;
             default:
                 Motor->stop();
                 break;
         }
-        if(i == _cmd.length()-1) //last noe to read uid
-            walk(Motor, 1);
-        else
-            walk(Motor, 0);
+        walk(Motor);
     }
+    Motor->stop();
     state = 2;
 }
 

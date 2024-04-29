@@ -20,8 +20,8 @@ log = logging.getLogger(__name__)
 # TODO : Fill in the following information
 TEAM_NAME = "台大電機段奕鳴"
 SERVER_URL = "http://140.112.175.18:5000/"
-MAZE_FILE = "data/medium_maze.csv"
-BT_PORT = "COM5"
+MAZE_FILE = "data/ten_maze.csv"
+BT_PORT = "COM3"
 
 # python main.py --maze-file="data/small_maze.csv" --bt-port="21"`` --team-name="HELLO" --server-url="http://140.112.175.18:5000/" 1
 # python main.py 1
@@ -59,7 +59,8 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         path = maze.BFS_2(start, goal)
         cmd = maze.actions_to_str(maze.getActions(path))
 
-        interface.send_action("f" + cmd);
+        #interface.send_action("f" + cmd);
+        interface.send_action(cmd);
         """for i in range(0, len(cmd)):
             interface.send_action(cmd[i])"""
         while True:
@@ -76,7 +77,11 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                     interface.send_action("b" + cmd[1:])
                     """for i in range(1, len(cmd)):
                         interface.send_action(cmd[i])"""
-                else: point.socket.disconnect()
+                    if not point.socket.connected:
+                        interface.send_action("g")
+                else: 
+                    point.socket.disconnect()
+                    interface.send_action("g")
         
         """
         for i in range(1, 12):
