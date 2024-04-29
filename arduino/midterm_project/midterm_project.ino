@@ -210,8 +210,7 @@ void Search()
                 Motor->stop();
                 break;
         }
-        Serial1.print("get");
-        Serial1.flush();
+        Serial1.println("get");
         Serial.println("print get");
         walk(Motor);
     }
