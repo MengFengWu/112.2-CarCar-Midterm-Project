@@ -47,22 +47,20 @@ void btDoRoutine()
   }
 }
 
-String ask_BT() {
-    //BT_CMD message = NOTHING;
-    String ret = cmds;
+char ask_BT() 
+{
+    char ret;
+    if(cmds.length() > 0)
+    {
+        ret = cmds[0];
+    }
+    String tmp = cmds;
     cmds = "";
+    for(int i=1; i<tmp.length(); i++)
+    {
+        cmds += tmp[i];
+    }
     return ret;
-    String cmd;
-    //Serial.print("asking...");
-// TODO:
-// 1. get cmd from Serial1(bluetooth serial)
-// 2. link bluetooth message to your own command type
-      /*
-#ifdef DEBUG
-        Serial.print("cmd : ");
-        Serial.println(cmd);
-#endif
-*/
 }  // ask_BT
 
 bool cmdAvailable()

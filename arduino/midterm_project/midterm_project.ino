@@ -103,7 +103,8 @@ int NowTime = millis();
 /*===========================declare function prototypes===========================*/
 
 /*===========================define function===========================*/
-void loop() {
+void loop() 
+{
     btDoRoutine();
     if(state == 0) Motor->write(0, 0);
     else if(state == 1) Search();
@@ -210,6 +211,8 @@ void Search()
                 break;
         }
         Serial1.print("get");
+        Serial1.flush();
+        Serial.println("print get");
         walk(Motor);
     }
 }
