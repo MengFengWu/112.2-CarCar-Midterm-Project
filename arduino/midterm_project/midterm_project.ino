@@ -36,9 +36,9 @@
 #define MotorL_PWML 12  // 定義 ENB (PWM調速) 接腳
 #define Motor_Stby 10
 //int LeftMotorMax = 122; //
-int RightMotorMax = 180;    
+//int RightMotorMax = 180;    
 int LeftMotorMax = 255;
-//int RightMotorMax = 220;
+int RightMotorMax = 200;
 dual_motor* Motor;
 RFID* Rfid;  // 建立RFID物件
 
@@ -112,7 +112,8 @@ void loop()
     {
         //Serial.println("gimme card");
         //Motor->write(-35, -35);
-        Motor->stop();
+        Motor->write(40, 40);
+        //Motor->stop();
         NowTime = millis();
         while(!Rfid->detectCard())
         {

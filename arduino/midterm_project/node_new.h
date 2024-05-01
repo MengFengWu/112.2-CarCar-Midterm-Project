@@ -62,14 +62,17 @@ void walk(dual_motor* Motor, int type = 0)
 
 void forward(dual_motor* Motor)
 {
-  int nowDetect = detect();
+  //int nowDetect = detect();
   Motor->write(255, 255);
+  delay(500);
+  /*
   do
   {
     delay(50);
     nowDetect = detect();
     Serial.print("node ");
   }while(nowDetect > 3);
+  */
 }
 
 void rightSpin(dual_motor* Motor)

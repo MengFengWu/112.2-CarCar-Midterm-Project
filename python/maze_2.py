@@ -135,7 +135,7 @@ class Maze:
         F = [0 for i in range(0, len(self.nodes))] #simulated car direction
         S = [len(self.node_dict[i + 1].get_successors()) for i in range(0, len(self.nodes))] #secessors
         Root = []
-        weight = [1, 2, 2, 4, 16384]
+        weight = [1, 4, 2, 2, 16384]
 
         self.traveled.append(node)
         while len(Q) != 0:
