@@ -51,13 +51,17 @@ void walk(dual_motor* Motor, int type = 0)
   while(nowDetect <= 2) 
   {
     nowDetect = detect();
-    if(nowDetect > 2) break;
+    if(nowDetect > 2)
+    {
+      Motor->write(255, 255);
+      break;
+    }
     tracking(digitalRead(32), digitalRead(34), digitalRead(36), digitalRead(38), digitalRead(40), Motor);
     Serial.print("line ");
     delay(50);
   }
   //Motor->write(150, 150);
-  //delay(100);
+  delay(100);
 }
 
 void forward(dual_motor* Motor)

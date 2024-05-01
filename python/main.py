@@ -18,9 +18,9 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 # TODO : Fill in the following information
-TEAM_NAME = "台大電機段奕鳴"
+TEAM_NAME = "第三組"
 SERVER_URL = "http://140.112.175.18:5000/"
-MAZE_FILE = "data/small_maze.csv"
+MAZE_FILE = "data/big_maze_112.csv"
 BT_PORT = "COM5"
 
 # python main.py --maze-file="data/small_maze.csv" --bt-port="21"`` --team-name="HELLO" --server-url="http://140.112.175.18:5000/" 1
@@ -54,11 +54,12 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")
         # TODO: You can write your code to test specific function.
-        start = maze.get_node_dict()[1]
+        start = maze.get_node_dict()[6]
         goal = maze.BFS(start)
         path = maze.BFS_2(start, goal)
         cmd = maze.actions_to_str(maze.getActions(path))
-        cmd = cmd + "?"
+        cmd = "f" + cmd + "?"
+        time.sleep(5)
         interface.send_action(cmd[0:3])
         counter = 3
         while True:
